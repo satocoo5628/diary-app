@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link </svg>
+    </button>
+    </header>
+
+    <main class="timeline-container">
+        <!-- 日記のリストがここに表示されます -->
+        <div id="diary-list" class="diary-list">
+            <div class="loading-state">
+                <div class="spinner"></div>
+                <p>読み込み中...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 投稿用モーダル（管理者のみ表示） -->
+    <div id="post-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>日記を書く</h2>
+                <button id="close-modal" class="icon-btn">×</button>
+            </div>
+            <form id="post-form">
+                <div class="form-group">
+                    <input type="date" id="post-date" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="post-content" placeholder="今日はどんな日でしたか？" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="image-upload-label">
+                        <input type="file" id="post-image" accept="image/*" hidden>
+                        <span class="upload-icon">📷</span> 写真を追加
+                    </label>
+                    <div id="image-preview" class="image-preview"></div>
+                </div>
+                <button type="submit" class="btn-submit" id="submit-btn">投稿する</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 管理者ログインモーダル -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2>管理者ログイン</h2>
+                <button id="close-login" class="icon-btn">×</button>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="password" id="admin-password" placeholder="パスワード" required>
+                </div>
+                <button type="submit" class="btn-submit">ログイン</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 投稿ボタン（管理者のみ表示） -->
+    <button id="fab-add" class="fab" style="display: none;">＋</button>
+    </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <script src="app.js"></script>
+    </body>
+
+</html>
