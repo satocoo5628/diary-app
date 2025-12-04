@@ -120,7 +120,6 @@ class DiaryApp {
     // データ読み込み
     loadDiaries() {
         db.collection('diaries')
-            .orderBy('date', 'desc')
             .orderBy('createdAt', 'desc')
             .onSnapshot((snapshot) => {
                 const diaries = [];
