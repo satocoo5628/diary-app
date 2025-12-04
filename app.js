@@ -12,38 +12,24 @@ const firebaseConfig = {
 // Firebase初期化
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-// Storageは使いません
 
 class DiaryApp {
     constructor() {
-        this.isAdmin = false;
         this.init();
     }
 
     init() {
+        this.currentEditId = null;
         this.setupEventListeners();
-        this.checkAdminLogin();
         this.loadDiaries();
     }
 
     setupEventListeners() {
-        // 管理者ログインモーダル
-        document.getElementById('login-btn').addEventListener('click', () => {
-            if (this.isAdmin) {
-                this.logout();
-            } else {
-                this.openModal('login-modal');
-            }
-        });
-
-        document.getElementById('close-login').addEventListener('click', () => {
-            this.closeModal('login-modal');
-        });
-
-        // 管理者ログイン処理
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.handleAdminLogin();
+        // Markdown ツールバー
+        document.querySelectorAll('.md-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.insertMarkdown(btn.dataset.md);
+            });
         });
 
         // 投稿モーダル
@@ -67,6 +53,22 @@ class DiaryApp {
             this.handlePost();
         });
 
+        // 編集モーダル
+        document.getElementById('close-edit-modal').addEventListener('click', () => {
+            this.closeModal('edit-modal');
+        });
+
+        // 編集処理
+        document.getElementById('edit-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleEdit();
+        });
+
+        // 編集用画像プレビュー
+        document.getElementById('edit-image').addEventListener('change', (e) => {
+            this.handleEditImagePreview(e);
+        });
+
         // モーダル外クリック
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
@@ -77,44 +79,42 @@ class DiaryApp {
         });
     }
 
-    // 管理者ログイン
-    checkAdminLogin() {
-        const loggedIn = localStorage.getItem('diary_admin_logged_in') === 'true';
-        this.setAdminMode(loggedIn);
-    }
+    // Markdown記法を挿入
+    insertMarkdown(syntax) {
+        const textarea = document.getElementById('post-content');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = textarea.value.substring(start, end);
+        const beforeText = textarea.value.substring(0, start);
+        const afterText = textarea.value.substring(end);
 
-    handleAdminLogin() {
-        const password = document.getElementById('admin-password').value;
-        if (password === 'admin123') { // 管理者パスワード
-            this.setAdminMode(true);
-            localStorage.setItem('diary_admin_logged_in', 'true');
-            this.closeModal('login-modal');
-            alert('管理者としてログインしました');
-        } else {
-            alert('パスワードが違います');
+        let newText;
+        let cursorPos;
+
+        if (syntax === '# ') {
+            // 見出し：行頭に追加
+            const lineStart = beforeText.lastIndexOf('\n') + 1;
+            newText = textarea.value.substring(0, lineStart) + syntax + textarea.value.substring(lineStart);
+            cursorPos = lineStart + syntax.length;
+        } else if (syntax === '- ') {
+            // リスト：行頭に追加
+            const lineStart = beforeText.lastIndexOf('\n') + 1;
+            newText = textarea.value.substring(0, lineStart) + syntax + textarea.value.substring(lineStart);
+            cursorPos = lineStart + syntax.length;
+        } else if (syntax === '**' || syntax === '*' || syntax === '`') {
+            // 囲む記法
+            if (selectedText) {
+                newText = beforeText + syntax + selectedText + syntax + afterText;
+                cursorPos = start + syntax.length + selectedText.length + syntax.length;
+            } else {
+                newText = beforeText + syntax + syntax + afterText;
+                cursorPos = start + syntax.length;
+            }
         }
-    }
 
-    logout() {
-        if (confirm('管理者からログアウトしますか？')) {
-            this.setAdminMode(false);
-            localStorage.removeItem('diary_admin_logged_in');
-            alert('ログアウトしました');
-        }
-    }
-
-    setAdminMode(isAdmin) {
-        this.isAdmin = isAdmin;
-        const fab = document.getElementById('fab-add');
-        const loginBtn = document.getElementById('login-btn');
-
-        if (isAdmin) {
-            fab.style.display = 'flex';
-            loginBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>';
-        } else {
-            fab.style.display = 'none';
-            loginBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
-        }
+        textarea.value = newText;
+        textarea.focus();
+        textarea.setSelectionRange(cursorPos, cursorPos);
     }
 
     // データ読み込み
@@ -148,7 +148,15 @@ class DiaryApp {
                 ${diary.imageUrl ? `<img src="${diary.imageUrl}" class="diary-image" alt="日記の写真" loading="lazy">` : ''}
                 <div class="diary-content">
                     <time class="diary-date">${this.formatDate(diary.date)}</time>
-                    <p class="diary-text">${this.escapeHtml(diary.content)}</p>
+                    <div class="diary-text">${marked.parse(diary.content || '')}</div>
+                    <div class="diary-actions">
+                        <button class="action-btn edit-btn" onclick="app.openEditModal('${diary.id}')">
+                            <span>✏️</span> 編集
+                        </button>
+                        <button class="action-btn delete-btn" onclick="app.deleteDiary('${diary.id}')">
+                            <span>🗑️</span> 削除
+                        </button>
+                    </div>
                 </div>
             </article>
         `).join('');
@@ -158,6 +166,22 @@ class DiaryApp {
     handleImagePreview(e) {
         const file = e.target.files[0];
         const preview = document.getElementById('image-preview');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                preview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.innerHTML = '';
+        }
+    }
+
+    // 編集用画像プレビュー
+    handleEditImagePreview(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('edit-image-preview');
 
         if (file) {
             const reader = new FileReader();
@@ -269,8 +293,95 @@ class DiaryApp {
         div.textContent = text;
         return div.innerHTML;
     }
+
+    // 削除処理
+    async deleteDiary(id) {
+        if (!confirm('この日記を削除してもよろしいですか?')) {
+            return;
+        }
+
+        try {
+            await db.collection('diaries').doc(id).delete();
+            alert('削除しました');
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+            alert('削除に失敗しました: ' + error.message);
+        }
+    }
+
+    // 編集モーダルを開く
+    async openEditModal(id) {
+        this.currentEditId = id;
+
+        try {
+            const doc = await db.collection('diaries').doc(id).get();
+            if (doc.exists) {
+                const data = doc.data();
+                document.getElementById('edit-date').value = data.date;
+                document.getElementById('edit-content').value = data.content;
+
+                const preview = document.getElementById('edit-image-preview');
+                if (data.imageUrl) {
+                    preview.innerHTML = `<img src="${data.imageUrl}" style="max-width: 100%; max-height: 200px; border-radius: 8px;">`;
+                } else {
+                    preview.innerHTML = '';
+                }
+
+                this.openModal('edit-modal');
+            }
+        } catch (error) {
+            console.error("Error getting document: ", error);
+            alert('データの読み込みに失敗しました');
+        }
+    }
+
+    // 編集処理
+    async handleEdit() {
+        const submitBtn = document.getElementById('edit-submit-btn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = '更新中...';
+
+        try {
+            const content = document.getElementById('edit-content').value;
+            const date = document.getElementById('edit-date').value;
+            const imageFile = document.getElementById('edit-image').files[0];
+
+            const updateData = {
+                date: date,
+                content: content,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            // 新しい画像がアップロードされた場合
+            if (imageFile) {
+                try {
+                    updateData.imageUrl = await this.compressImage(imageFile);
+                } catch (e) {
+                    console.error("Image compression failed:", e);
+                    alert("画像の処理に失敗しました");
+                    return;
+                }
+            }
+
+            await db.collection('diaries').doc(this.currentEditId).update(updateData);
+
+            alert('更新しました！');
+            this.closeModal('edit-modal');
+            document.getElementById('edit-form').reset();
+            document.getElementById('edit-image-preview').innerHTML = '';
+            this.currentEditId = null;
+
+        } catch (error) {
+            console.error("Error updating document: ", error);
+            alert('更新に失敗しました: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '更新する';
+        }
+    }
 }
 
+let app;
 document.addEventListener('DOMContentLoaded', () => {
-    new DiaryApp();
+    app = new DiaryApp();
 });

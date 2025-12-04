@@ -2,21 +2,21 @@
     --font-sans: 'Zen Kaku Gothic New', sans-serif;
     --font-serif: 'Shippori Mincho', serif;
 
-    --color-bg: #0F0F1E;
-    --color-surface: rgba(255, 255, 255, 0.05);
-    --color-surface-elevated: rgba(255, 255, 255, 0.1);
-    --color-text: #E8E9F3;
-    --color-text-light: #A0A3BD;
-    --color-primary: #A78BFA;
-    --color-primary-dark: #8B5CF6;
-    --color-accent: #F59E0B;
-    --color-gradient-1: #667EEA;
-    --color-gradient-2: #764BA2;
+    --color-bg: #FFF0F5;
+    --color-surface: rgba(255, 255, 255, 0.8);
+    --color-surface-elevated: rgba(255, 255, 255, 0.95);
+    --color-text: #4A2C3E;
+    --color-text-light: #8B6F7D;
+    --color-primary: #FF69B4;
+    --color-primary-dark: #FF1493;
+    --color-accent: #FFB6C1;
+    --color-gradient-1: #FFB6D9;
+    --color-gradient-2: #FFC9E5;
 
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-    --shadow-glow: 0 0 20px rgba(167, 139, 250, 0.3);
+    --shadow-sm: 0 1px 2px 0 rgba(255, 105, 180, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(255, 105, 180, 0.15);
+    --shadow-lg: 0 10px 15px -3px rgba(255, 105, 180, 0.2);
+    --shadow-glow: 0 0 20px rgba(255, 182, 193, 0.4);
 
     --radius-lg: 16px;
     --radius-xl: 24px;
@@ -30,7 +30,7 @@
 
 body {
     font-family: var(--font-sans);
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: linear-gradient(135deg, #FFE5F1 0%, #FFD6E8 50%, #FFC9E5 100%);
     background-attachment: fixed;
     color: var(--color-text);
     line-height: 1.6;
@@ -47,7 +47,7 @@ body::before {
     left: -50%;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(167, 139, 250, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.2) 0%, transparent 50%);
     animation: rotate 30s linear infinite;
     pointer-events: none;
 }
@@ -69,7 +69,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+    background: linear-gradient(135deg, #FFB6D9 0%, #FF69B4 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,12 +77,12 @@ body::before {
 }
 
 .login-box {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
     padding: 3rem 2rem;
     border-radius: var(--radius-xl);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.3);
+    border: 1px solid rgba(255, 182, 193, 0.3);
     text-align: center;
     width: 90%;
     max-width: 360px;
@@ -91,21 +91,21 @@ body::before {
 
 .login-box h1 {
     font-family: var(--font-serif);
-    color: white;
+    color: var(--color-primary);
     margin-bottom: 0.5rem;
     font-size: 2rem;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 10px rgba(255, 105, 180, 0.2);
 }
 
 .login-box p {
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-light);
     margin-bottom: 2rem;
     font-size: 0.95rem;
 }
 
 /* ヘッダー */
 .app-header {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
     position: sticky;
     top: 0;
@@ -114,8 +114,8 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(255, 105, 180, 0.1);
+    border-bottom: 1px solid rgba(255, 182, 193, 0.2);
 }
 
 .logo {
@@ -127,7 +127,7 @@ body::before {
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: 0.05em;
-    text-shadow: 0 0 30px rgba(167, 139, 250, 0.5);
+    text-shadow: 0 0 30px rgba(255, 105, 180, 0.3);
 }
 
 /* タイムライン */
@@ -146,11 +146,11 @@ body::before {
 
 /* 日記カード */
 .diary-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-surface);
     backdrop-filter: blur(10px);
     border-radius: var(--radius-xl);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(255, 105, 180, 0.15);
+    border: 1px solid rgba(255, 182, 193, 0.2);
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     animation: fadeInUp 0.6s ease backwards;
@@ -207,8 +207,8 @@ body::before {
 
 .diary-card:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.6), var(--shadow-glow);
-    border-color: rgba(167, 139, 250, 0.3);
+    box-shadow: 0 20px 40px 0 rgba(255, 105, 180, 0.25), var(--shadow-glow);
+    border-color: rgba(255, 105, 180, 0.4);
 }
 
 .diary-image {
@@ -224,7 +224,7 @@ body::before {
 
 .diary-content {
     padding: 2rem;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(255, 182, 193, 0.05) 0%, transparent 100%);
 }
 
 .diary-date {
@@ -239,9 +239,79 @@ body::before {
 
 .diary-text {
     font-size: 1.05rem;
-    white-space: pre-wrap;
     color: var(--color-text);
     line-height: 1.8;
+}
+
+/* Markdown styling */
+.diary-text h1,
+.diary-text h2,
+.diary-text h3 {
+    color: var(--color-primary);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-family: var(--font-serif);
+}
+
+.diary-text h1 {
+    font-size: 1.75rem;
+}
+
+.diary-text h2 {
+    font-size: 1.5rem;
+}
+
+.diary-text h3 {
+    font-size: 1.25rem;
+}
+
+.diary-text p {
+    margin-bottom: 1rem;
+}
+
+.diary-text strong {
+    color: var(--color-primary-dark);
+    font-weight: 600;
+}
+
+.diary-text em {
+    color: var(--color-primary);
+}
+
+.diary-text ul,
+.diary-text ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.diary-text li {
+    margin-bottom: 0.5rem;
+}
+
+.diary-text code {
+    background: rgba(255, 105, 180, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: var(--color-primary-dark);
+}
+
+.diary-text pre {
+    background: rgba(255, 105, 180, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 182, 193, 0.2);
+}
+
+.diary-text blockquote {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1rem;
+    margin-left: 0;
+    color: var(--color-text-light);
+    font-style: italic;
 }
 
 /* モーダル */
@@ -252,7 +322,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 105, 180, 0.3);
     backdrop-filter: blur(5px);
     z-index: 1000;
     align-items: center;
@@ -265,14 +335,14 @@ body::before {
 }
 
 .modal-content {
-    background: rgba(30, 30, 50, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     width: 100%;
     max-width: 550px;
     border-radius: var(--radius-xl);
     padding: 2rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+    border: 1px solid rgba(255, 182, 193, 0.3);
     animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -298,7 +368,7 @@ body::before {
     align-items: center;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 182, 193, 0.2);
 }
 
 .modal-header h2 {
@@ -319,12 +389,12 @@ input,
 textarea {
     width: 100%;
     padding: 1rem 1.25rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 182, 193, 0.3);
     border-radius: 14px;
     font-family: inherit;
     font-size: 1rem;
     transition: all 0.3s;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.8);
     color: var(--color-text);
 }
 
@@ -337,8 +407,8 @@ input:focus,
 textarea:focus {
     outline: none;
     border-color: var(--color-primary);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
 }
 
 textarea {
@@ -351,16 +421,16 @@ textarea {
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px dashed rgba(255, 255, 255, 0.2);
+    background: rgba(255, 182, 193, 0.2);
+    border: 1px dashed rgba(255, 105, 180, 0.4);
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s;
-    color: var(--color-text-light);
+    color: var(--color-text);
 }
 
 .image-upload-label:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 182, 193, 0.3);
     border-color: var(--color-primary);
     color: var(--color-primary);
 }
@@ -384,7 +454,7 @@ textarea {
     font-size: 1.05rem;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(167, 139, 250, 0.4);
+    box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
     position: relative;
     overflow: hidden;
 }
@@ -396,7 +466,7 @@ textarea {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
     transition: left 0.5s;
 }
 
@@ -406,7 +476,7 @@ textarea {
 
 .btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(167, 139, 250, 0.6);
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
 }
 
 .btn-submit:active {
@@ -415,8 +485,8 @@ textarea {
 
 /* ボタン類 */
 .icon-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 182, 193, 0.2);
+    border: 1px solid rgba(255, 105, 180, 0.2);
     cursor: pointer;
     padding: 0.75rem;
     color: var(--color-text);
@@ -428,7 +498,7 @@ textarea {
 }
 
 .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 182, 193, 0.3);
     border-color: var(--color-primary);
     color: var(--color-primary);
     transform: scale(1.05);
@@ -445,7 +515,7 @@ textarea {
     color: white;
     border: none;
     font-size: 2rem;
-    box-shadow: 0 8px 24px rgba(167, 139, 250, 0.5);
+    box-shadow: 0 8px 24px rgba(255, 105, 180, 0.5);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -456,7 +526,7 @@ textarea {
 
 .fab:hover {
     transform: scale(1.1) rotate(90deg);
-    box-shadow: 0 12px 32px rgba(167, 139, 250, 0.7);
+    box-shadow: 0 12px 32px rgba(255, 105, 180, 0.7);
 }
 
 .fab:active {
@@ -474,7 +544,7 @@ textarea {
 .spinner {
     width: 40px;
     height: 40px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    border: 3px solid rgba(255, 182, 193, 0.3);
     border-top-color: var(--color-primary);
     border-radius: 50%;
     margin: 0 auto 1.5rem;
@@ -488,11 +558,11 @@ textarea {
 }
 
 .error {
-    color: #EF4444;
-    background: rgba(239, 68, 68, 0.1);
+    color: #FF1493;
+    background: rgba(255, 20, 147, 0.1);
     padding: 1rem;
     border-radius: 12px;
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(255, 20, 147, 0.2);
 }
 
 /* レスポンシブ */
@@ -523,4 +593,94 @@ textarea {
         bottom: 1.5rem;
         right: 1.5rem;
     }
+}
+
+/* Markdown toolbar */
+.markdown-toolbar {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(255, 182, 193, 0.1);
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+
+.md-btn {
+    padding: 0.5rem 0.75rem;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.md-btn:hover {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(255, 105, 180, 0.3);
+}
+
+.md-btn:active {
+    transform: translateY(0);
+}
+
+/* Diary action buttons */
+.diary-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 182, 193, 0.2);
+}
+
+.action-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.action-btn span {
+    font-size: 1.1rem;
+}
+
+.edit-btn:hover {
+    background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+    color: white;
+    border-color: #4A90E2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #FF6B6B 0%, #EE5A52 100%);
+    color: white;
+    border-color: #FF6B6B;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.action-btn:active {
+    transform: translateY(0);
 }

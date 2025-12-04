@@ -15,20 +15,12 @@
 
 <body>
     <div id="app">
-        <!-- メイン画面 -->
         <div id="main-screen">
             <header class="app-header">
                 <div class="logo">Daily Life</div>
-                <button id="login-btn" class="icon-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                </button>
             </header>
 
             <main class="timeline-container">
-                <!-- 日記のリストがここに表示されます -->
                 <div id="diary-list" class="diary-list">
                     <div class="loading-state">
                         <div class="spinner"></div>
@@ -37,7 +29,7 @@
                 </div>
             </main>
 
-            <!-- 投稿用モーダル（管理者のみ表示） -->
+            <!-- 投稿用モーダル -->
             <div id="post-modal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -49,7 +41,14 @@
                             <input type="date" id="post-date" required>
                         </div>
                         <div class="form-group">
-                            <textarea id="post-content" placeholder="今日はどんな日でしたか？" required></textarea>
+                            <div class="markdown-toolbar">
+                                <button type="button" class="md-btn" data-md="# " title="見出し">H</button>
+                                <button type="button" class="md-btn" data-md="**" title="太字">B</button>
+                                <button type="button" class="md-btn" data-md="*" title="斜体">I</button>
+                                <button type="button" class="md-btn" data-md="- " title="リスト">•</button>
+                                <button type="button" class="md-btn" data-md="`" title="コード">&lt;/&gt;</button>
+                            </div>
+                            <textarea id="post-content" placeholder="今日はどんな日でしたか?" required></textarea>
                         </div>
                         <div class="form-group">
                             <label class="image-upload-label">
@@ -63,24 +62,34 @@
                 </div>
             </div>
 
-            <!-- 管理者ログインモーダル -->
-            <div id="login-modal" class="modal">
-                <div class="modal-content small">
+            <!-- 編集用モーダル -->
+            <div id="edit-modal" class="modal">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h2>管理者ログイン</h2>
-                        <button id="close-login" class="icon-btn">×</button>
+                        <h2>日記を編集</h2>
+                        <button id="close-edit-modal" class="icon-btn">×</button>
                     </div>
-                    <form id="login-form">
+                    <form id="edit-form">
                         <div class="form-group">
-                            <input type="password" id="admin-password" placeholder="パスワード" required>
+                            <input type="date" id="edit-date" required>
                         </div>
-                        <button type="submit" class="btn-submit">ログイン</button>
+                        <div class="form-group">
+                            <textarea id="edit-content" placeholder="今日はどんな日でしたか?" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="image-upload-label">
+                                <input type="file" id="edit-image" accept="image/*" hidden>
+                                <span class="upload-icon">📷</span> 写真を変更
+                            </label>
+                            <div id="edit-image-preview" class="image-preview"></div>
+                        </div>
+                        <button type="submit" class="btn-submit" id="edit-submit-btn">更新する</button>
                     </form>
                 </div>
             </div>
 
-            <!-- 投稿ボタン（管理者のみ表示） -->
-            <button id="fab-add" class="fab" style="display: none;">＋</button>
+            <!-- 投稿ボタン -->
+            <button id="fab-add" class="fab">＋</button>
         </div>
     </div>
 
@@ -88,6 +97,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+
+    <!-- Markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script src="app.js"></script>
 </body>
